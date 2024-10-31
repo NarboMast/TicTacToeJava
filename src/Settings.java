@@ -1,4 +1,4 @@
 public interface Settings {
-    int dimension = 8;
+    int dimension = 5;
     int iconSize = 100;
 }
