@@ -4,9 +4,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Board extends JPanel {
-    private JNImethods jniMethods;
-    private Icons icons;
-    private JButton[][] buttons;
+    private final JNImethods jniMethods;
+    private final Icons icons;
+    private final JButton[][] buttons;
 
     public Board() {
         setLayout(new GridLayout(Settings.dimension, Settings.dimension));

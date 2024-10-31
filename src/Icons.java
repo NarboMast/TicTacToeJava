@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Icons {
-    private HashMap<Character, ImageIcon> icons;
+    private final HashMap<Character, ImageIcon> icons;
 
     public Icons() {
         icons = new HashMap<>();
