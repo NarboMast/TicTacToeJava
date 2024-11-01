@@ -47,7 +47,10 @@ public class Board extends JPanel implements Settings{
 
         button.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                if(!keyListenerEnabled) keyListenerEnabled = true;
+                if(e.getKeyCode() == KeyEvent.VK_A) {
+                    keyListenerEnabled = !keyListenerEnabled;
+                    moveHighlightButton(highlightedRow, highlightedCol);
+                }
                 handleKeyPress(e);
             }
         });
@@ -56,20 +59,14 @@ public class Board extends JPanel implements Settings{
     }
 
     private void handleClick(int row, int col) {
-        char player = jniMethods.getValue(row, col);
-        buttons[row][col].setIcon(icons.getIcon(player));
+        jniMethods.makeMove(row, col);
 
-        if (jniMethods.checkWin(player)) {
-            System.out.println(player + " wins");
-            jniMethods.destroyBoard();
-            System.exit(0);
-        }
-
-        if (jniMethods.checkDraw()){
-            System.out.println("Draw");
-            jniMethods.destroyBoard();
-            System.exit(0);
-        }
+        moveHighlightButton(row, col);
+        highlightedRow = row;
+        highlightedCol = col;
+        keyListenerEnabled = false;
+        refreshBoard();
+        checkGameState(row, col);
     }
 
 
@@ -78,7 +75,7 @@ public class Board extends JPanel implements Settings{
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (highlightedRow == 0) {
-                        moveHighlightButton(4, highlightedCol);
+                        moveHighlightButton(dimension - 1, highlightedCol);
                     } else {
                         moveHighlightButton(highlightedRow - 1, highlightedCol);
                     }
@@ -105,21 +102,32 @@ public class Board extends JPanel implements Settings{
                     }
                     break;
                 case KeyEvent.VK_SPACE:
-                    char player = jniMethods.getValue(highlightedRow, highlightedCol);
-                    buttons[highlightedRow][highlightedCol].setIcon(icons.getIcon(player));
-
-                    if (jniMethods.checkWin(player)) {
-                        System.out.println(player + " wins");
-                        jniMethods.destroyBoard();
-                        System.exit(0);
-                    }
-
-                    if (jniMethods.checkDraw()){
-                        System.out.println("Draw");
-                        jniMethods.destroyBoard();
-                        System.exit(0);
-                    }
+                    jniMethods.makeMove(highlightedRow, highlightedCol);
+                    refreshBoard();
+                    checkGameState(highlightedRow, highlightedCol);
                     break;
+            }
+        }
+    }
+
+    private void checkGameState(int row, int col) {
+        if (jniMethods.checkWin(jniMethods.getValue(row, col))) {
+            System.out.println(jniMethods.getValue(row, col) + " wins");
+            jniMethods.destroyBoard();
+            System.exit(0);
+        }
+
+        if (jniMethods.checkDraw()) {
+            System.out.println("Draw");
+            jniMethods.destroyBoard();
+            System.exit(0);
+        }
+    }
+
+    private void refreshBoard() {
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                buttons[i][j].setIcon(icons.getIcon(jniMethods.getValue(i, j)));
             }
         }
     }

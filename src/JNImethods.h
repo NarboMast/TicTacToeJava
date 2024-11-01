@@ -17,11 +17,11 @@ JNIEXPORT void JNICALL Java_JNImethods_setBoard
 
 /*
  * Class:     JNImethods
- * Method:    destroyBoard
- * Signature: ()V
+ * Method:    makeMove
+ * Signature: (II)V
  */
-JNIEXPORT void JNICALL Java_JNImethods_destroyBoard
-  (JNIEnv *, jobject);
+JNIEXPORT void JNICALL Java_JNImethods_makeMove
+  (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     JNImethods
@@ -45,6 +45,14 @@ JNIEXPORT jboolean JNICALL Java_JNImethods_checkWin
  * Signature: ()Z
  */
 JNIEXPORT jboolean JNICALL Java_JNImethods_checkDraw
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     JNImethods
+ * Method:    destroyBoard
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_JNImethods_destroyBoard
   (JNIEnv *, jobject);
 
 #ifdef __cplusplus
