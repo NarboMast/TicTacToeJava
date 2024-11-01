@@ -8,38 +8,32 @@ import java.awt.event.MouseEvent;
 public class Board extends JPanel implements Settings{
     private final JNImethods jniMethods;
     private final Icons icons;
-    private final JButton[][] buttons;
+    private boolean keyListenerEnabled = false;
     private int highlightedRow = 0;
     private int highlightedCol = 0;
-    private boolean keyListenerEnabled = false;
 
     public Board() {
-        setLayout(new GridLayout(dimension,dimension));
-
+        setLayout(new GridLayout(dimension, dimension));
         jniMethods = new JNImethods();
         icons = new Icons();
-        buttons = new JButton[dimension][dimension];
-
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                JButton button = getjButton(i, j);
-                buttons[i][j] = button;
-                add(button);
-            }
-        }
-
+        initializeBoard();
         jniMethods.setBoard(dimension);
     }
 
-    private JButton getjButton(int i, int j) {
+    private void initializeBoard() {
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                JButton button = createButton(i, j);
+                add(button);
+            }
+        }
+    }
+
+    private JButton createButton(int row, int col) {
         JButton button = new JButton();
         button.setBackground(Color.white);
 
-        final int row = i;
-        final int col = j;
-
         button.addMouseListener(new MouseAdapter() {
-            @Override
             public void mouseClicked(MouseEvent e) {
                 handleClick(row, col);
             }
@@ -47,9 +41,8 @@ public class Board extends JPanel implements Settings{
 
         button.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_A) {
+                if (e.getKeyCode() == KeyEvent.VK_A) {
                     keyListenerEnabled = !keyListenerEnabled;
-                    moveHighlightButton(highlightedRow, highlightedCol);
                 }
                 handleKeyPress(e);
             }
@@ -60,22 +53,19 @@ public class Board extends JPanel implements Settings{
 
     private void handleClick(int row, int col) {
         jniMethods.makeMove(row, col);
-
-        moveHighlightButton(row, col);
+        keyListenerEnabled = false;
         highlightedRow = row;
         highlightedCol = col;
-        keyListenerEnabled = false;
         refreshBoard();
         checkGameState(row, col);
     }
 
-
     private void handleKeyPress(KeyEvent e) {
-        if(keyListenerEnabled) {
+        if (keyListenerEnabled) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (highlightedRow == 0) {
-                        moveHighlightButton(dimension - 1, highlightedCol);
+                        moveHighlightButton(dimension, highlightedCol);
                     } else {
                         moveHighlightButton(highlightedRow - 1, highlightedCol);
                     }
@@ -125,22 +115,29 @@ public class Board extends JPanel implements Settings{
     }
 
     private void refreshBoard() {
+        Component[] components = getComponents();
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
-                buttons[i][j].setIcon(icons.getIcon(jniMethods.getValue(i, j)));
+                JButton button = (JButton)components[i * dimension + j];
+                button.setIcon(icons.getIcon(jniMethods.getValue(i, j)));
+                button.setBackground(Color.white);
             }
         }
     }
 
-    private void highlightButton(int row, int col) {
-        buttons[row][col].setBackground(Color.GRAY);
-        buttons[row][col].requestFocus();
+    private void highlightButton(JButton button) {
+        button.setBackground(Color.GRAY);
+        button.requestFocus();
     }
 
-    private void moveHighlightButton(int nRow, int nCol) {
-        buttons[highlightedRow][highlightedCol].setBackground(Color.white);
-        highlightedRow = nRow;
-        highlightedCol = nCol;
-        highlightButton(highlightedRow, highlightedCol);
+    private void moveHighlightButton(int row, int col) {
+        Component[] components = getComponents();
+        JButton fromButton = (JButton)components[highlightedRow * dimension + highlightedCol];
+        fromButton.setBackground(Color.white);
+        highlightedRow = row;
+        highlightedCol = col;
+        JButton toButton = (JButton)components[highlightedRow * dimension + highlightedCol];
+
+        highlightButton(toButton);
     }
 }

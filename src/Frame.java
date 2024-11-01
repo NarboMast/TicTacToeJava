@@ -7,8 +7,8 @@ public class Frame extends JFrame implements Settings{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        Board board = new Board();
-        add(board);
+
+        add(new Board());
 
         setVisible(true);
     }
