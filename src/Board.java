@@ -65,30 +65,30 @@ public class Board extends JPanel implements Settings{
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_UP:
                     if (highlightedRow == 0) {
-                        moveHighlightButton(dimension, highlightedCol);
+                        highlightButton(dimension, highlightedCol);
                     } else {
-                        moveHighlightButton(highlightedRow - 1, highlightedCol);
+                        highlightButton(highlightedRow - 1, highlightedCol);
                     }
                     break;
                 case KeyEvent.VK_DOWN:
                     if (highlightedRow == dimension - 1) {
-                        moveHighlightButton(0, highlightedCol);
+                        highlightButton(0, highlightedCol);
                     } else {
-                        moveHighlightButton(highlightedRow + 1, highlightedCol);
+                        highlightButton(highlightedRow + 1, highlightedCol);
                     }
                     break;
                 case KeyEvent.VK_LEFT:
                     if (highlightedCol == 0) {
-                        moveHighlightButton(highlightedRow, dimension - 1);
+                        highlightButton(highlightedRow, dimension - 1);
                     } else {
-                        moveHighlightButton(highlightedRow, highlightedCol - 1);
+                        highlightButton(highlightedRow, highlightedCol - 1);
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
                     if (highlightedCol == dimension - 1) {
-                        moveHighlightButton(highlightedRow, 0);
+                        highlightButton(highlightedRow, 0);
                     } else {
-                        moveHighlightButton(highlightedRow, highlightedCol + 1);
+                        highlightButton(highlightedRow, highlightedCol + 1);
                     }
                     break;
                 case KeyEvent.VK_SPACE:
@@ -125,19 +125,19 @@ public class Board extends JPanel implements Settings{
         }
     }
 
-    private void highlightButton(JButton button) {
-        button.setBackground(Color.GRAY);
-        button.requestFocus();
-    }
+//    private void highlightButton(JButton button) {
+//        button.setBackground(Color.GRAY);
+//        button.requestFocus();
+//    }
 
-    private void moveHighlightButton(int row, int col) {
+    private void highlightButton(int row, int col) {
         Component[] components = getComponents();
         JButton fromButton = (JButton)components[highlightedRow * dimension + highlightedCol];
         fromButton.setBackground(Color.white);
         highlightedRow = row;
         highlightedCol = col;
         JButton toButton = (JButton)components[highlightedRow * dimension + highlightedCol];
-
-        highlightButton(toButton);
+        toButton.setBackground(Color.GRAY);
+        toButton.requestFocus();
     }
 }
