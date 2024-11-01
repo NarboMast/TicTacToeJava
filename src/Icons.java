@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class Icons {
+public class Icons implements Settings {
     private final HashMap<Character, ImageIcon> icons;
 
     public Icons() {
@@ -19,7 +20,7 @@ public class Icons {
     private ImageIcon createScaledIcon(String path) {
         ImageIcon originalIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource(path)));
         Image image = originalIcon.getImage();
-        Image scaledImage = image.getScaledInstance(Settings.iconSize, Settings.iconSize, Image.SCALE_SMOOTH);
+        Image scaledImage = image.getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
 

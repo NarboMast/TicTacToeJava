@@ -1,11 +1,11 @@
 import javax.swing.*;
-import java.awt.*;
 
-public class Frame extends JFrame {
+public class Frame extends JFrame implements Settings{
     Frame(){
         setTitle("TicTacToe");
-        setSize(new Dimension(600,650));
+        setSize(windowWidth,windowHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         Board board = new Board();
         add(board);

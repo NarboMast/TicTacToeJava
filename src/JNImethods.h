@@ -39,6 +39,14 @@ JNIEXPORT jchar JNICALL Java_JNImethods_getValue
 JNIEXPORT jboolean JNICALL Java_JNImethods_checkWin
   (JNIEnv *, jobject, jchar);
 
+/*
+ * Class:     JNImethods
+ * Method:    checkDraw
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL Java_JNImethods_checkDraw
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

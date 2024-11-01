@@ -7,4 +7,5 @@ public class JNImethods {
     public native void destroyBoard();
     public native char getValue(int row, int col);
     public native boolean checkWin(char player);
+    public native boolean checkDraw();
 }
