@@ -55,6 +55,14 @@ JNIEXPORT jboolean JNICALL Java_JNImethods_checkDraw
 JNIEXPORT void JNICALL Java_JNImethods_destroyBoard
   (JNIEnv *, jobject);
 
+/*
+ * Class:     JNImethods
+ * Method:    capture
+ * Signature: (II)V
+ */
+JNIEXPORT void JNICALL Java_JNImethods_capture
+  (JNIEnv *, jobject, jint, jint);
+
 #ifdef __cplusplus
 }
 #endif

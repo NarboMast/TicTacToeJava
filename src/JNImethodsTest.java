@@ -104,4 +104,11 @@ public class JNImethodsTest {
         jniMethods.destroyBoard();
         assertDoesNotThrow(() -> jniMethods.setBoard(3), "Should allow reinitializing after destroying the board");
     }
+
+    @Test
+    public void capture(){
+        jniMethods.makeMove(0, 0);
+        jniMethods.capture(0, 0);
+        assertEquals('O', jniMethods.getValue(0, 0), "Cell must be captured");
+    }
 }

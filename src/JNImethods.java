@@ -9,4 +9,5 @@ public class JNImethods {
     public native boolean checkWin(char player);
     public native boolean checkDraw();
     public native void destroyBoard();
+    public native void capture(int row, int col);
 }
